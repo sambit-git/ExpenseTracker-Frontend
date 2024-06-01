@@ -1,0 +1,20 @@
+.options {
+  display: flex;
+  justify-content: space-evenly;
+  overflow: scroll;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  button {
+    padding: 0.5rem;
+    box-shadow: 2px 2px 4px #ccc, -2px -2px 4px #fff;
+    border-radius: 1rem;
+    outline: none;
+  }
+
+  .active {
+    background-color: royalblue;
+    color: white;
+    box-shadow: 2px 2px 4px royalblue, -2px -2px 4px #fff;
+  }
+}

@@ -1,0 +1,53 @@
+.transaction {
+  margin: 0 1rem 1rem 1rem;
+  background-color: #fff;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px #ccc;
+}
+
+.info {
+  flex: 1;
+}
+
+.tags {
+  width: 100%;
+  font-size: smaller;
+  gap: 1rem;
+  display: none;
+}
+
+.show-tags {
+  display: flex;
+}
+
+.amount {
+  padding: 1rem;
+  background-color: lavender;
+  box-shadow: 2px 2px 4px #ccc;
+  font-weight: bold;
+}
+.debit {
+  color: royalblue;
+}
+
+.credit {
+  color: darkcyan;
+}
+.name {
+}
+.description {
+  color: #aaa;
+  font-size: smaller;
+}
+.account,
+.category {
+  padding: 5px;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  border-radius: 1rem;
+}

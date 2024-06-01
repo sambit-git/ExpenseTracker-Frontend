@@ -1,0 +1,26 @@
+.red {
+  color: royalblue;
+  background-color: royalblue;
+}
+
+.green {
+  color: darkcyan;
+  background-color: darkcyan;
+}
+
+.card {
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+.content {
+  padding: 0.25rem;
+  border-radius: 8px;
+  box-shadow: inset 8px 8px 8px #ccc, inset -8px -8px 4px #fff;
+  margin-bottom: 1rem;
+  background-color: #eef0f1;
+}
+
+.caption {
+  color: white;
+}
