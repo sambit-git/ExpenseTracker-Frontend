@@ -2,8 +2,12 @@
   padding: 2rem;
   background-color: lavender;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+  height: 100%;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  flex-direction: column;
 }
 
 .title {
@@ -14,20 +18,27 @@
 }
 
 .field {
-  margin-bottom: 15px;
+  margin-bottom: 2rem;
+  position: relative;
+  /* border: 1px solid black; */
 }
 
 .label {
   color: #555;
+  display: block;
+  position: absolute;
+  left: 1rem;
+  top: -1.5rem;
+  background-color: lavender;
+  padding: 0.5rem;
 }
 
 .input,
 .textarea,
 .select {
   width: 100%;
-  padding: 0.5rem;
-  border: none;
-  border-bottom: 2px solid #b8b8ff;
+  padding: 1rem;
+  border: 2px solid #ceceff;
   background-color: transparent;
   outline: none;
 }
@@ -38,7 +49,6 @@
 
 .radioGroup {
   display: flex;
-  /* justify-content: space-around; */
   gap: 2rem;
 }
 
@@ -49,6 +59,31 @@
 
 .radio {
   margin-right: 5px;
+}
+
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border: none;
+  }
+
+  option {
+    color: #333;
+    background: #fdfeff;
+    /* font-size: 16px; */
+    border: none;
+
+    &:focus,
+    &:hover,
+    &:checked {
+      background-color: #28a745;
+    }
+  }
 }
 
 .buttons {
