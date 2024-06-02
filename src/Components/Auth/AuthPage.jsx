@@ -57,7 +57,11 @@ const AuthPage = () => {
           </button>
         </div>
         <div className={styles["form-container"]}>
-          {isLoginPage ? <LoginForm onLogin={loginUser} /> : <RegisterForm />}
+          {isLoginPage ? (
+            <LoginForm onLogin={loginUser} />
+          ) : (
+            <RegisterForm onSuccess={handleEnableLogin} />
+          )}
         </div>
       </div>
     </div>

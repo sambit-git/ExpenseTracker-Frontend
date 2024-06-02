@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import styles from "./Form.module.css";
 import {
   isValidEmail,
@@ -7,11 +7,13 @@ import {
 } from "../../util/pattern_validations";
 import { register } from "../../services/user";
 
-const RegisterForm = () => {
+const RegisterForm = ({ onSuccess }) => {
   const fullNameRef = useRef();
   const emailRef = useRef();
   const usernameRef = useRef();
   const passwordRef = useRef();
+
+  const [error, setError] = useState();
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -20,24 +22,23 @@ const RegisterForm = () => {
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
     if (!isValidEmail(email)) {
-      console.log("invalid email");
+      setError("invalid email");
       return;
     } else if (!isValidUsername(username)) {
-      console.log("invalid username");
+      setError("invalid username");
       return;
     } else if (!isValidPassword(password)) {
-      console.log(
+      setError(
         "password must be of 8 characters containing at lease one character \
         from uppercase, lowercase, number and special-character"
       );
       return;
     }
     register({ fullName, username, email, password })
-      .then((res) => console.log(res))
+      .then((res) => onSuccess())
       .catch((err) => {
         if (err?.response?.data) {
-          if (err.response.status != 200)
-            console.log(err.response.data.message);
+          if (err.response.status != 200) setError(err.response.data.message);
           else console.log(err);
         } else {
           console.log(err);
@@ -78,6 +79,7 @@ const RegisterForm = () => {
           ref={passwordRef}
           required
         />
+        {error}
         <button type="submit" className={styles.button}>
           Register
         </button>

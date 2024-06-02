@@ -12,7 +12,9 @@ import MonthlyCard from "./MonthlyCard";
 import Account from "../App/Account/Account";
 import Category from "../App/Category/Category";
 
+import AccountForm from "../App/Account/AccountForm";
 import TransactionForm from "../App/Transaction/TransactionForm";
+import CategoryForm from "../App/Category/CategoryForm";
 
 // Action Creators - Thunks
 import { getTransactions } from "../../store/transactionSlice";
@@ -43,14 +45,28 @@ const AppLayout = () => {
   const [showForm, setShowForm] = useState(false);
   const toggleShowForm = () => setShowForm((state) => !state);
 
+  let content, form;
+  if (selected == options[0]) {
+    content = transactions?.map((tx) => <Transaction key={tx._id} {...tx} />);
+    form = (
+      <TransactionForm
+        categories={categories}
+        accounts={accounts}
+        onClose={toggleShowForm}
+      />
+    );
+  } else if (selected == options[1]) {
+    content = accounts?.map((acc) => <Account key={acc._id} {...acc} />);
+    form = <AccountForm onClose={toggleShowForm} />;
+  } else if (selected == options[2]) {
+    content = categories?.map((cat) => <Category key={cat._id} {...cat} />);
+    form = <CategoryForm onClose={toggleShowForm} />;
+  }
+
   return (
     <>
       {showForm ? (
-        <TransactionForm
-          categories={categories}
-          accounts={accounts}
-          onClose={toggleShowForm}
-        />
+        form
       ) : (
         <div className={styles.layout}>
           <div className={styles["fixed-layout"]}>
@@ -62,12 +78,7 @@ const AppLayout = () => {
             />
           </div>
           <div className={styles.content}>
-            {selected === options[0] &&
-              transactions?.map((tx) => <Transaction key={tx._id} {...tx} />)}
-            {selected === options[1] &&
-              accounts?.map((acc) => <Account key={acc._id} {...acc} />)}
-            {selected === options[2] &&
-              categories?.map((cat) => <Category key={cat._id} {...cat} />)}
+            {content}
             <button className={styles.button} onClick={toggleShowForm}>
               +
             </button>

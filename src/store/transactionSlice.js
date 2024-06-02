@@ -40,14 +40,7 @@ export const getTransactions = () => {
 
     // trim data as required by component
     const data = transactions.map((tx) => {
-      const {
-        _id,
-        name,
-        description,
-        datetime,
-        amount,
-        transaction_type: transactionType,
-      } = tx;
+      const { _id, name, description, datetime, amount, transactionType } = tx;
       const account = tx?.account?.name;
       const category = tx?.category?.name;
       return {
@@ -75,9 +68,9 @@ export const getTransactions = () => {
           transactionMonth === currentMonth &&
           transactionYear === currentYear
         ) {
-          if (transaction.transaction_type === "debit") {
+          if (transaction.transactionType === "debit") {
             acc.totalExpense += transaction.amount;
-          } else if (transaction.transaction_type === "credit") {
+          } else if (transaction.transactionType === "credit") {
             acc.totalCredit += transaction.amount;
           }
         }
@@ -102,7 +95,7 @@ export const getTransactions = () => {
 export const addTransaction = (data) => {
   return async (dispatch) => {
     const res = await addTransactionService(data);
-    console.log(res);
+    data._id = res._id;
     dispatch(transactionActions.addTransaction(data));
   };
 };

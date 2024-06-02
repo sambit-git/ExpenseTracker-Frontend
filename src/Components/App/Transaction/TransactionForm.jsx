@@ -5,32 +5,32 @@ import { addTransaction } from "../../../store/transactionSlice";
 import { nowDateTimeValue } from "../../../util/datetime";
 
 const TransactionForm = ({ categories, accounts, onClose }) => {
-  const txNameRef = useRef();
-  const txCreditRef = useRef();
-  const txDebitRef = useRef();
-  const txDescriptionRef = useRef();
-  const txTimestampRef = useRef();
-  const txCategoryRef = useRef();
-  const txAccountRef = useRef();
-  const txAmountRef = useRef();
+  const nameRef = useRef();
+  const creditRef = useRef();
+  const debitRef = useRef();
+  const descriptionRef = useRef();
+  const timestampRef = useRef();
+  const categoryRef = useRef();
+  const accountRef = useRef();
+  const amountRef = useRef();
 
   const dispatch = useDispatch();
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const name = txNameRef.current.value;
-    const transaction_type = [txCreditRef, txDebitRef].find(
+    const name = nameRef.current.value;
+    const transactionType = [creditRef, debitRef].find(
       (ref) => ref.current.checked
     )?.current.value;
-    const description = txDescriptionRef.current.value;
-    const timestamp = txTimestampRef.current.value;
-    const category = txCategoryRef.current.value || undefined;
-    const account = txAccountRef.current.value || undefined;
-    const amount = txAmountRef.current.value;
+    const description = descriptionRef.current.value;
+    const timestamp = timestampRef.current.value;
+    const category = categoryRef.current.value || undefined;
+    const account = accountRef.current.value || undefined;
+    const amount = amountRef.current.value;
     dispatch(
       addTransaction({
         name,
-        transaction_type,
+        transactionType,
         description,
         timestamp,
         category,
@@ -38,6 +38,7 @@ const TransactionForm = ({ categories, accounts, onClose }) => {
         amount,
       })
     );
+    onClose();
   };
 
   return (
@@ -46,15 +47,17 @@ const TransactionForm = ({ categories, accounts, onClose }) => {
 
       <div className={styles.field}>
         <label className={styles.label}>Name</label>
-        <input ref={txNameRef} type="text" className={styles.input} required />
+        <input ref={nameRef} type="text" className={styles.input} required />
       </div>
 
       <div className={styles.field}>
         <label className={styles.label}>Amount</label>
+
         <input
-          type="text"
+          type="number"
+          step="0.01"
           className={styles.input}
-          ref={txAmountRef}
+          ref={amountRef}
           required
         />
       </div>
@@ -64,10 +67,10 @@ const TransactionForm = ({ categories, accounts, onClose }) => {
         <div className={styles.radioGroup}>
           <label className={styles.radioLabel}>
             <input
-              ref={txDebitRef}
+              ref={debitRef}
               type="radio"
               value="debit"
-              name="transaction_type"
+              name="transactionType"
               className={styles.radio}
               defaultChecked
               key="debit"
@@ -76,10 +79,10 @@ const TransactionForm = ({ categories, accounts, onClose }) => {
           </label>
           <label className={styles.radioLabel}>
             <input
-              ref={txCreditRef}
+              ref={creditRef}
               type="radio"
               value="credit"
-              name="transaction_type"
+              name="transactionType"
               className={styles.radio}
               key="credit"
             />
@@ -90,13 +93,13 @@ const TransactionForm = ({ categories, accounts, onClose }) => {
 
       <div className={styles.field}>
         <label className={styles.label}>Description</label>
-        <textarea ref={txDescriptionRef} className={styles.textarea}></textarea>
+        <textarea ref={descriptionRef} className={styles.textarea}></textarea>
       </div>
 
       <div className={styles.field}>
         <label className={styles.label}>Date & Time</label>
         <input
-          ref={txTimestampRef}
+          ref={timestampRef}
           type="datetime-local"
           className={styles.input}
           defaultValue={nowDateTimeValue(Date.now())}
@@ -105,7 +108,7 @@ const TransactionForm = ({ categories, accounts, onClose }) => {
 
       <div className={styles.field}>
         <label className={styles.label}>Category</label>
-        <select className={styles.select} ref={txCategoryRef}>
+        <select className={styles.select} ref={categoryRef}>
           <option value="">Select a category</option>
           {categories?.map((category) => (
             <option value={category._id} key={category._id}>
@@ -117,7 +120,7 @@ const TransactionForm = ({ categories, accounts, onClose }) => {
 
       <div className={styles.field}>
         <label className={styles.label}>Account</label>
-        <select className={styles.select} ref={txAccountRef}>
+        <select className={styles.select} ref={accountRef}>
           <option value="">Select an account</option>
           {accounts?.map((account) => (
             <option value={account._id} key={account._id}>

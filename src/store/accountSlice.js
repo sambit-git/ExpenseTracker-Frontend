@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchAccounts } from "../services/account";
+import {
+  fetchAccounts,
+  addAccount as addAccountService,
+} from "../services/account";
 
 export const accountSlice = createSlice({
   name: "accounts",
@@ -13,6 +16,10 @@ export const accountSlice = createSlice({
   reducers: {
     setAccounts: (state, action) => {
       state.data = action.payload;
+    },
+
+    addAccount: (state, action) => {
+      state.data.push(action.payload);
     },
   },
 });
@@ -34,6 +41,14 @@ export const getAccounts = () => {
     });
 
     dispatch(accountActions.setAccounts(data));
+  };
+};
+
+export const addAccount = (data) => {
+  return async (dispatch) => {
+    const res = await addAccountService(data);
+    data._id = res._id;
+    dispatch(accountActions.addAccount(data));
   };
 };
 

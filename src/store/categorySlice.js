@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchCategories } from "../services/category";
+import {
+  fetchCategories,
+  addCategory as addCategoryService,
+} from "../services/category";
 
 export const categorySlice = createSlice({
   name: "categories",
@@ -10,6 +13,10 @@ export const categorySlice = createSlice({
   reducers: {
     setCategories: (state, action) => {
       state.data = action.payload;
+    },
+
+    addCategory: (state, action) => {
+      state.data.push(action.payload);
     },
   },
 });
@@ -31,6 +38,14 @@ export const getCategories = () => {
     });
 
     dispatch(categoryActions.setCategories(data));
+  };
+};
+
+export const addCategory = (data) => {
+  return async (dispatch) => {
+    const res = await addCategoryService(data);
+    data._id = res._id;
+    dispatch(categoryActions.addCategory(data));
   };
 };
 
