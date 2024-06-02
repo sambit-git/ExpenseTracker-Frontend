@@ -27,6 +27,17 @@ body,
   background-color: lavender;
 }
 
+/* For Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1; /* Thumb and track color */
+}
+
+/* For IE and Edge */
+body {
+  -ms-overflow-style: -ms-autohiding-scrollbar; /* Auto-hide scrollbar in IE/Edge */
+}
+
 body {
   display: flex;
   place-items: center;
@@ -51,16 +62,6 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
-/* .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100dvh;
-  width: 100dvw;
-  background-color: #1f1d1db7;
-  z-index: 10;
-} */
 
 button {
   border: 1px solid transparent;

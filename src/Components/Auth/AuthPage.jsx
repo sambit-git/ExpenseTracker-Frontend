@@ -22,7 +22,9 @@ const AuthPage = () => {
   }, []);
 
   useEffect(() => {
-    if (user) navigate("/user", { replace: true });
+    if (user) {
+      navigate("/transactions/all", { replace: true });
+    }
   }, [user, navigate]);
 
   const handleEnableLogin = () => !isLoginPage && setIsLoginPage(true);

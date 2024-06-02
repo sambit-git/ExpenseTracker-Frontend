@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { isValidEmail } from "../../util/pattern_validations";
 import { login } from "../../services/user";
 import styles from "./Form.module.css";
@@ -6,6 +6,7 @@ import styles from "./Form.module.css";
 const LoginForm = ({ onLogin }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const [loginError, setLoginError] = useState();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -15,7 +16,7 @@ const LoginForm = ({ onLogin }) => {
     else data["username"] = emailRef.current.value;
     login(data)
       .then((res) => onLogin(res))
-      .catch((err) => console.log(err));
+      .catch((err) => setLoginError(err?.response?.data?.message));
   };
   return (
     <>
@@ -35,6 +36,7 @@ const LoginForm = ({ onLogin }) => {
           className={styles.input}
           required
         />
+        {loginError && <div>{loginError}</div>}
         <button type="submit" className={styles.button}>
           Login
         </button>

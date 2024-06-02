@@ -20,15 +20,7 @@ import { getTransactions } from "../../store/transactionSlice";
 import { getAccounts } from "../../store/accountSlice";
 import { getCategories } from "../../store/categorySlice";
 
-const AppLayout = ({
-  card1Caption,
-  card1Value,
-  card2Caption,
-  card2Value,
-  optionsList,
-  Content,
-  addButtonURL,
-}) => {
+const AppLayout = () => {
   const options = ["Transaction", "Account", "Category"];
   const [selected, setSelected] = useState(options[0]);
 

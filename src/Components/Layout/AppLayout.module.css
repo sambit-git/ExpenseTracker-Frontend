@@ -3,7 +3,7 @@
 }
 .content {
   /* flex: 1; */
-  overflow: scroll;
+  overflow: auto;
   height: calc(90dvh - 240px);
 
   .button {
@@ -20,4 +20,7 @@
     justify-content: center;
     box-shadow: 2px 2px 2px #ccc;
   }
+
+  scrollbar-width: thin; /* Set the scrollbar width */
+  scrollbar-color: rgb(167, 167, 167) transparent; /* Thumb and track color */
 }

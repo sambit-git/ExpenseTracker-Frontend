@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 
 const router = createBrowserRouter([
   { path: "/", element: <AuthPage /> },
-  { path: "/user", element: <AppLayout /> },
+  { path: "/transactions/all", element: <AppLayout /> },
 ]);
 
 function App() {

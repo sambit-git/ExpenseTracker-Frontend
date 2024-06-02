@@ -1,27 +1,32 @@
-/* .dialog {
+.dialog {
   border: none;
-  background-color: #546a79c7;
-  position: fixed;
-  top: 0;
-  left: 0%;
-  height: 100dvh;
-  width: 100dvw;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+  position: fixed;
+  z-index: 100;
+  padding: 0;
+  background-color: transparent;
 
-.dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
+  &::backdrop {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: #a5abb69d;
+    z-index: 1;
+  }
 }
 
 .button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: royalblue;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 20px;
   display: inline-block;
-} */
+}

@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchTransactions } from "../services/transaction";
+import {
+  fetchTransactions as fetchTransactionsService,
+  addTransaction as addTransactionService,
+} from "../services/transaction";
 
 export const transactionSlice = createSlice({
   name: "transactions",
@@ -18,6 +21,10 @@ export const transactionSlice = createSlice({
       state.totalCredit = totalCredit;
       state.balance = balance;
     },
+
+    addTransaction: (state, action) => {
+      state.data.push(action.payload);
+    },
   },
 });
 
@@ -29,7 +36,7 @@ export const getTransactions = () => {
     const state = getState();
     if (state.transactions.data !== null) return;
 
-    const transactions = await fetchTransactions();
+    const transactions = await fetchTransactionsService();
 
     // trim data as required by component
     const data = transactions.map((tx) => {
@@ -71,7 +78,6 @@ export const getTransactions = () => {
           if (transaction.transaction_type === "debit") {
             acc.totalExpense += transaction.amount;
           } else if (transaction.transaction_type === "credit") {
-            console.log(transaction.amount);
             acc.totalCredit += transaction.amount;
           }
         }
@@ -90,6 +96,14 @@ export const getTransactions = () => {
         balance,
       })
     );
+  };
+};
+
+export const addTransaction = (data) => {
+  return async (dispatch) => {
+    const res = await addTransactionService(data);
+    console.log(res);
+    dispatch(transactionActions.addTransaction(data));
   };
 };
 

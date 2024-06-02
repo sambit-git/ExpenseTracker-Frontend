@@ -8,3 +8,12 @@ export const fetchTransactions = () => {
       return Promise.reject(err);
     });
 };
+
+export const addTransaction = (data) => {
+  return api
+    .post("/transaction/create", data)
+    .then((res) => res.data)
+    .catch((err) => {
+      return Promise.reject(err);
+    });
+};
