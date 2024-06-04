@@ -4,6 +4,7 @@ import {
   fetchTransactions as fetchTransactionsService,
   addTransaction as addTransactionService,
 } from "../services/transaction";
+import { findInsertionIndex } from "../util/datetime";
 
 export const transactionSlice = createSlice({
   name: "transactions",
@@ -23,7 +24,8 @@ export const transactionSlice = createSlice({
     },
 
     addTransaction: (state, action) => {
-      state.data.push(action.payload);
+      const index = findInsertionIndex(state.data, action.payload);
+      state.data.splice(index, 0, action.payload);
     },
   },
 });
@@ -80,6 +82,8 @@ export const getTransactions = () => {
       },
       { totalExpense: 0, totalCredit: 0, balance: 0 }
     );
+
+    data.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
 
     dispatch(
       transactionActions.setTransactions({

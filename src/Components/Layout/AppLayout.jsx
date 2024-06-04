@@ -20,6 +20,7 @@ import CategoryForm from "../App/Category/CategoryForm";
 import { getTransactions } from "../../store/transactionSlice";
 import { getAccounts } from "../../store/accountSlice";
 import { getCategories } from "../../store/categorySlice";
+import GroupedTransactions from "../App/Transaction/GroupedTransactions";
 
 const AppLayout = () => {
   const options = ["Transaction", "Account", "Category"];
@@ -47,7 +48,9 @@ const AppLayout = () => {
 
   let content, form;
   if (selected == options[0]) {
-    content = transactions?.map((tx) => <Transaction key={tx._id} {...tx} />);
+    content = transactions && (
+      <GroupedTransactions transactions={transactions} />
+    );
     form = (
       <TransactionForm
         categories={categories}

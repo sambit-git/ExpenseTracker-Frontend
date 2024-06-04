@@ -23,7 +23,7 @@ const TransactionForm = ({ categories, accounts, onClose }) => {
       (ref) => ref.current.checked
     )?.current.value;
     const description = descriptionRef.current.value;
-    const timestamp = timestampRef.current.value;
+    const datetime = timestampRef.current.value;
     const category = categoryRef.current.value || undefined;
     const account = accountRef.current.value || undefined;
     const amount = amountRef.current.value;
@@ -32,7 +32,7 @@ const TransactionForm = ({ categories, accounts, onClose }) => {
         name,
         transactionType,
         description,
-        timestamp,
+        datetime,
         category,
         account,
         amount,

@@ -6,6 +6,7 @@ import {
   isValidUsername,
 } from "../../util/pattern_validations";
 import { register } from "../../services/user";
+import Spinner from "../common/Spinner";
 
 const RegisterForm = ({ onSuccess }) => {
   const fullNameRef = useRef();
@@ -14,6 +15,7 @@ const RegisterForm = ({ onSuccess }) => {
   const passwordRef = useRef();
 
   const [error, setError] = useState();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -34,14 +36,20 @@ const RegisterForm = ({ onSuccess }) => {
       );
       return;
     }
+    setIsProcessing(true);
     register({ fullName, username, email, password })
-      .then((res) => onSuccess())
+      .then((res) => {
+        onSuccess();
+        setIsProcessing(false);
+      })
       .catch((err) => {
         if (err?.response?.data) {
           if (err.response.status != 200) setError(err.response.data.message);
           else console.log(err);
+          setIsProcessing(false);
         } else {
           console.log(err);
+          setIsProcessing(false);
         }
         return;
       });
@@ -81,7 +89,7 @@ const RegisterForm = ({ onSuccess }) => {
         />
         {error}
         <button type="submit" className={styles.button}>
-          Register
+          {isProcessing ? <Spinner /> : "Register"}
         </button>
       </form>
     </>

@@ -2,21 +2,31 @@ import { useRef, useState } from "react";
 import { isValidEmail } from "../../util/pattern_validations";
 import { login } from "../../services/user";
 import styles from "./Form.module.css";
+import Spinner from "../common/Spinner";
 
 const LoginForm = ({ onLogin }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [loginError, setLoginError] = useState();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setIsLoggingIn(true);
+    setLoginError("");
     const data = { password: passwordRef.current.value };
     if (isValidEmail(emailRef.current.value))
       data["email"] = emailRef.current.value;
     else data["username"] = emailRef.current.value;
     login(data)
-      .then((res) => onLogin(res))
-      .catch((err) => setLoginError(err?.response?.data?.message));
+      .then((res) => {
+        setIsLoggingIn(false);
+        onLogin(res);
+      })
+      .catch((err) => {
+        setIsLoggingIn(false);
+        setLoginError(err?.response?.data?.message);
+      });
   };
   return (
     <>
@@ -37,8 +47,9 @@ const LoginForm = ({ onLogin }) => {
           required
         />
         {loginError && <div>{loginError}</div>}
-        <button type="submit" className={styles.button}>
-          Login
+        <button type="submit" className={styles.button} disabled={isLoggingIn}>
+          {isLoggingIn ? <Spinner /> : "Login"}
+          {/* {!isLoggingIn ? <Spinner /> : "Login"} */}
         </button>
       </form>
     </>
