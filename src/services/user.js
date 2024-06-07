@@ -12,7 +12,11 @@ export const register = (data) => {
 export const login = (data) => {
   return api
     .post("/user/login", data)
-    .then((res) => res.data)
+    .then((res) => {
+      const { token, ...user } = res.data;
+      if (token) localStorage.setItem("token", token);
+      return user;
+    })
     .catch((err) => {
       return Promise.reject(err);
     });
