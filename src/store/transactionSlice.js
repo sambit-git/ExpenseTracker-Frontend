@@ -5,27 +5,34 @@ import {
   addTransaction as addTransactionService,
 } from "../services/transaction";
 import { findInsertionIndex } from "../util/datetime";
+import { act } from "react";
 
 export const transactionSlice = createSlice({
   name: "transactions",
   initialState: {
     data: null,
     totalExpense: 0,
+    monthlyExpense: 0,
     totalCredit: 0,
     balance: 0,
   },
   reducers: {
     setTransactions: (state, action) => {
-      const { data, totalExpense, totalCredit, balance } = action.payload;
-      state.data = data;
-      state.totalExpense = totalExpense;
-      state.totalCredit = totalCredit;
-      state.balance = balance;
+      state.data = action.payload;
     },
 
     addTransaction: (state, action) => {
       const index = findInsertionIndex(state.data, action.payload);
       state.data.splice(index, 0, action.payload);
+    },
+
+    setAmounts: (state, action) => {
+      const { totalExpense, monthlyExpense, totalCredit, balance } =
+        action.payload;
+      if (totalCredit) state.totalCredit = totalCredit;
+      if (totalExpense) state.totalExpense = totalExpense;
+      if (monthlyExpense) state.monthlyExpense = monthlyExpense;
+      if (balance) state.balance = balance;
     },
   },
 });
@@ -57,42 +64,9 @@ export const getTransactions = () => {
       };
     });
 
-    // calculate monthly expense, credit and balance for current month
-    const currentMonth = new Date().getMonth();
-    const currentYear = new Date().getFullYear();
-    const { totalExpense, totalCredit, balance } = transactions.reduce(
-      (acc, transaction) => {
-        const transactionDate = new Date(transaction.datetime);
-        const transactionMonth = transactionDate.getMonth();
-        const transactionYear = transactionDate.getFullYear();
-
-        if (
-          transactionMonth === currentMonth &&
-          transactionYear === currentYear
-        ) {
-          if (transaction.transactionType === "debit") {
-            acc.totalExpense += transaction.amount;
-          } else if (transaction.transactionType === "credit") {
-            acc.totalCredit += transaction.amount;
-          }
-        }
-
-        acc.balance = acc.totalCredit - acc.totalExpense;
-        return acc;
-      },
-      { totalExpense: 0, totalCredit: 0, balance: 0 }
-    );
-
     data.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
 
-    dispatch(
-      transactionActions.setTransactions({
-        data,
-        totalExpense,
-        totalCredit,
-        balance,
-      })
-    );
+    dispatch(transactionActions.setTransactions(data));
   };
 };
 

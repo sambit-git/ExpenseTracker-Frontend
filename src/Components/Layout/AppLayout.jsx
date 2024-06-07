@@ -17,10 +17,13 @@ import TransactionForm from "../App/Transaction/TransactionForm";
 import CategoryForm from "../App/Category/CategoryForm";
 
 // Action Creators - Thunks
-import { getTransactions } from "../../store/transactionSlice";
+import transactionActions, {
+  getTransactions,
+} from "../../store/transactionSlice";
 import { getAccounts } from "../../store/accountSlice";
 import { getCategories } from "../../store/categorySlice";
 import GroupedTransactions from "../App/Transaction/GroupedTransactions";
+import { calculateExpensesAndBalance } from "../../util/calculations";
 
 const AppLayout = () => {
   const options = ["Transaction", "Account", "Category"];
@@ -37,7 +40,16 @@ const AppLayout = () => {
     dispatch(getTransactions());
     dispatch(getAccounts());
     dispatch(getCategories());
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (accounts?.length > 0 && transactions?.length > 0)
+      dispatch(
+        transactionActions.setAmounts(
+          calculateExpensesAndBalance(accounts, transactions)
+        )
+      );
+  }, [accounts, transactions]);
 
   const handleOption = (selection) => {
     setSelected(selection);
