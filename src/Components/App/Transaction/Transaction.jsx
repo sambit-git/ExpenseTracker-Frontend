@@ -22,8 +22,10 @@ const Transaction = ({
         <div className={styles.description}>{description}</div>
       </div>
       <div className={`${styles.tags} ${showTags && styles["show-tags"]}`}>
-        {account && <div className={styles.account}>{account}</div>}
-        {category && <div className={styles.category}>{category}</div>}
+        {account?.name && <div className={styles.account}>{account.name}</div>}
+        {category?.name && (
+          <div className={styles.category}>{category.name}</div>
+        )}
       </div>
     </div>
   );

@@ -11,9 +11,7 @@ export const transactionSlice = createSlice({
   name: "transactions",
   initialState: {
     data: null,
-    totalExpense: 0,
     monthlyExpense: 0,
-    totalCredit: 0,
     balance: 0,
   },
   reducers: {
@@ -27,10 +25,7 @@ export const transactionSlice = createSlice({
     },
 
     setAmounts: (state, action) => {
-      const { totalExpense, monthlyExpense, totalCredit, balance } =
-        action.payload;
-      if (totalCredit) state.totalCredit = totalCredit;
-      if (totalExpense) state.totalExpense = totalExpense;
+      const { monthlyExpense, balance } = action.payload;
       if (monthlyExpense) state.monthlyExpense = monthlyExpense;
       if (balance) state.balance = balance;
     },
@@ -50,8 +45,18 @@ export const getTransactions = () => {
     // trim data as required by component
     const data = transactions.map((tx) => {
       const { _id, name, description, datetime, amount, transactionType } = tx;
-      const account = tx?.account?.name;
-      const category = tx?.category?.name;
+
+      let account, category;
+      if (tx?.account?._id) {
+        account = {
+          name: tx?.account?.name,
+          _id: tx?.account?._id,
+          updatedAt: tx?.account?.updatedAt,
+        };
+      }
+      if (tx?.category?._id) {
+        category = { name: tx?.category?.name, _id: tx?.category?._id };
+      }
       return {
         _id,
         name,
@@ -74,6 +79,7 @@ export const addTransaction = (data) => {
   return async (dispatch) => {
     const res = await addTransactionService(data);
     data._id = res._id;
+    data.amount = +data.amount;
     dispatch(transactionActions.addTransaction(data));
   };
 };
